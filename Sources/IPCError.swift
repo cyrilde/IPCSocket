@@ -18,6 +18,9 @@ import Darwin
 public enum IPCError: Swift.Error {
     
     case unableCreateSocket
+    case alreadyConnected
+    case malformedPath(details: String)
+    case connectFailed
     
 }
 
@@ -27,6 +30,12 @@ extension IPCError: CustomStringConvertible {
         switch self {
         case .unableCreateSocket:
             return "Unable to create a socket. \(getErrorDescription())"
+        case .alreadyConnected:
+            return "Socket is already connected."
+        case .malformedPath(let details):
+            return "Path is malformed. \(details)"
+        case .connectFailed:
+            return "Unable to connect. \(getErrorDescription())"
         }
     }
   

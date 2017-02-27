@@ -12,12 +12,12 @@
 // 	See the License for the specific language governing permissions and
 // 	limitations under the License.
 //
+import Foundation
 
-import XCTest
-@testable import IPCSocket
-
-class IPCSocketTests: XCTestCase {
-    static var allTests : [(String, (IPCSocketTests) -> () throws -> Void)] {
-        return []
-    }
+extension String {
+    
+    var length: Int { return utf8.count }
+    
+    var isNotBlank: Bool { return !self.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty }
+    
 }
