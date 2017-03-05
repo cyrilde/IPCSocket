@@ -14,6 +14,7 @@
 //
 
 import Darwin
+import Foundation
 
 public class IPCSocket {
     
@@ -86,6 +87,32 @@ public class IPCSocket {
             self.path = IPCSocket.INVALID_PATH
             
             isConnected = false
+        }
+    }
+    
+    public func write(from data: Data) throws -> Int {
+        if !self.isConnected {
+            throw IPCError.notConnected
+        }
+        
+        if data.count == 0 {
+            return 0
+        }
+        
+        return try data.withUnsafeBytes() { (dataPointer: UnsafePointer<UInt8>) throws -> Int in
+            
+            var bytesSent = 0
+            
+            while bytesSent < data.count {
+                let bytesSentChunk = Darwin.send(self.fd, dataPointer.advanced(by: bytesSent), Int(data.count - bytesSent), 0)
+                
+                if bytesSentChunk < 0 {
+                    throw IPCError.writeFailed
+                }
+                bytesSent += bytesSentChunk
+            }
+            
+            return bytesSent
         }
     }
 

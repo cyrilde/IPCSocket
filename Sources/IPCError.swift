@@ -19,8 +19,10 @@ public enum IPCError: Swift.Error {
     
     case unableCreateSocket
     case alreadyConnected
+    case notConnected
     case malformedPath(details: String)
     case connectFailed
+    case writeFailed
     
 }
 
@@ -32,10 +34,14 @@ extension IPCError: CustomStringConvertible {
             return "Unable to create a socket. \(getErrorDescription())"
         case .alreadyConnected:
             return "Socket is already connected."
+        case .notConnected:
+            return "Socket is not connected yet."
         case .malformedPath(let details):
             return "Path is malformed. \(details)"
         case .connectFailed:
             return "Unable to connect. \(getErrorDescription())"
+        case .writeFailed:
+            return "Unable to write data. \(getErrorDescription())"
         }
     }
   
