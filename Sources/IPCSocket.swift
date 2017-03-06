@@ -115,6 +115,22 @@ public class IPCSocket {
             return bytesSent
         }
     }
+    
+    public func read() throws -> Data {
+        if !self.isConnected {
+            throw IPCError.notConnected
+        }
+        
+        var buffer = [UInt8](repeating: 0, count: 1024)
+        
+        var counter = Darwin.recv(self.fd, &buffer, 1024, Int32(MSG_WAITALL))
+        if counter < 0 {
+            throw IPCError.readFailed
+        }
+        let bufferPointer = UnsafeMutablePointer<UInt8>(UnsafeMutablePointer(mutating: buffer))
+        
+        return Data(bytesNoCopy: bufferPointer, count: counter, deallocator: .none)
+    }
 
     
     // MARK: Private Functions

@@ -23,6 +23,7 @@ public enum IPCError: Swift.Error {
     case malformedPath(details: String)
     case connectFailed
     case writeFailed
+    case readFailed
     
 }
 
@@ -42,6 +43,8 @@ extension IPCError: CustomStringConvertible {
             return "Unable to connect. \(getErrorDescription())"
         case .writeFailed:
             return "Unable to write data. \(getErrorDescription())"
+        case .readFailed:
+            return "Unable to read data. \(getErrorDescription())"
         }
     }
   
