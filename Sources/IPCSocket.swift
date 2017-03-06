@@ -143,7 +143,7 @@ public class IPCSocket {
     
     private func getSocketAddress() -> UnsafeMutablePointer<UInt8>{
         let address = UnsafeMutablePointer<UInt8>.allocate(capacity: getSocketAddressLength())
-
+        
         address[0] = UInt8(MemoryLayout<sockaddr_un>.size)
         address[1] = UInt8(AF_UNIX)
         
@@ -153,7 +153,7 @@ public class IPCSocket {
     }
     
     func getSocketAddressLength() -> Int {
-        return MemoryLayout<UInt8>.size + MemoryLayout<sockaddr_un>.size + path.length
+        return MemoryLayout<UInt8>.size + MemoryLayout<sa_family_t>.size + path.length
     }
     
 }
